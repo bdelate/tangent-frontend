@@ -4,6 +4,12 @@ import { toggleError } from '../../actions';
 // 3rd party imports
 import axios from 'axios';
 
+export const logout = () => {
+  return {
+    type: 'LOGOUT'
+  };
+};
+
 function saveToken(token) {
   return {
     type: 'SAVE_TOKEN',
