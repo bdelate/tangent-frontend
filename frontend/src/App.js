@@ -1,19 +1,27 @@
+// react imports
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+// project imports
+import Auth from './containers/Auth/Auth';
+
+// 3rd party imports
+import styled from 'styled-components';
+import { Route, Switch } from 'react-router-dom';
+
+const UIContainer = styled.div`
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+`;
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <UIContainer>
+        <Switch>
+          <Route path="/auth" component={Auth} />
+        </Switch>
+      </UIContainer>
     );
   }
 }
