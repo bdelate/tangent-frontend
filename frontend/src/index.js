@@ -7,6 +7,7 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import authReducer from './containers/Auth/reducers';
+import homeReducer from './containers/Home/reducers';
 
 // 3rd party imports
 import { BrowserRouter } from 'react-router-dom';
@@ -15,7 +16,8 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  home: homeReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

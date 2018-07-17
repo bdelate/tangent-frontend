@@ -9,6 +9,7 @@ import * as actions from './actions';
 // 3rd party imports
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 const Container = styled.div`
   display: flex;
@@ -36,29 +37,37 @@ const Form = styled.form`
 `;
 
 class Auth extends Component {
-  state = {
-    error: false
-  };
+  state = {}
+
+  componentDidMount() {
+    if (this.props.authToken) {
+      axios.defaults.headers.common['Authorization'] = `JWT ${
+        this.props.authToken
+        }`;
+      this.props.history.push('/');
+    }
+  }
+
+  // called when the props change (eg: authToken is received)
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return { ...nextProps };
+  }
+
+  // if authToken is received, navigate to '/'
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.authToken === null && this.props.authToken !== null) {
+      this.props.history.push('/');
+    }
+  }
 
   handleLogin = event => {
     event.preventDefault();
-    this.setState({ error: false });
+    this.props.toggleError(null);
     this.props.login(event.target.username.value, event.target.password.value);
-
-    // axios
-    //   .post('/api/obtain-token/', authData)
-    //   .then(res => {
-    //     localStorage.setItem('authToken', res.data.token);
-    //     this.props.saveToken(res.data.token);
-    //     this.props.history.push('/');
-    //   })
-    //   .catch(error => {
-    //     this.setState({ error: 'Unable to login. Check Credentials.' });
-    //   });
   };
 
   render() {
-    const error = this.state.error ? <div>{this.state.error}</div> : null;
+    const error = this.props.error ? <div>{this.props.error}</div> : null;
 
     return (
       <Container>
@@ -89,9 +98,17 @@ class Auth extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    authToken: state.auth.token,
+    error: state.auth.error
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
-    login: (username, password) => dispatch(actions.login(username, password))
+    login: (username, password) => dispatch(actions.login(username, password)),
+    toggleError: (error) => dispatch(actions.toggleError(error))
   };
 };
 
@@ -99,6 +116,6 @@ const mapDispatchToProps = dispatch => {
 export const AuthComponentOnly = Auth;
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Auth);

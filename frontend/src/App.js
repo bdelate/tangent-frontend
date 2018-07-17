@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 // project imports
 import Auth from './containers/Auth/Auth';
+import Home from './containers/Home/Home';
 
 // 3rd party imports
 import styled from 'styled-components';
@@ -20,6 +21,7 @@ class App extends Component {
       <UIContainer>
         <Switch>
           <Route path="/auth" component={Auth} />
+          <Route path="/" component={Home} />
         </Switch>
       </UIContainer>
     );
