@@ -9,6 +9,7 @@ import registerServiceWorker from './registerServiceWorker';
 import authReducer from './containers/Auth/reducers';
 import employeesReducer from './containers/Employees/reducers';
 import homeReducer from './containers/Home/reducers';
+import globalReducer from './reducers';
 
 // 3rd party imports
 import { BrowserRouter } from 'react-router-dom';
@@ -19,7 +20,8 @@ import thunk from 'redux-thunk';
 const rootReducer = combineReducers({
   auth: authReducer,
   employees: employeesReducer,
-  home: homeReducer
+  home: homeReducer,
+  global: globalReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

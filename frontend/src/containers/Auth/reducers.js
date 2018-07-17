@@ -2,8 +2,7 @@
 import jwtDecode from 'jwt-decode';
 
 const initialState = {
-    token: validateAuthToken(),
-    error: null
+    token: validateAuthToken()
 };
 
 // called when module is initially loaded which will save authToken to
@@ -25,20 +24,10 @@ function saveToken(state, token) {
     };
 }
 
-// error message will be displayed on auth form
-function toggleError(state, error) {
-    return {
-        ...state,
-        error: error
-    };
-}
-
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SAVE_TOKEN':
             return saveToken(state, action.token);
-        case 'TOGGLE_ERROR':
-            return toggleError(state, action.error);
         default:
             return state;
     }

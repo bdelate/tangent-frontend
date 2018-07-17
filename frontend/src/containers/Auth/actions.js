@@ -1,3 +1,7 @@
+// project imports
+import { toggleError } from '../../actions';
+
+// 3rd party imports
 import axios from 'axios';
 
 function saveToken(token) {
@@ -5,13 +9,6 @@ function saveToken(token) {
     type: 'SAVE_TOKEN',
     token: token
   };
-}
-
-export const toggleError = (error) => {
-  return {
-    type: 'TOGGLE_ERROR',
-    error: error
-  }
 }
 
 // request auth token using credentials provided and save the token in Redux.

@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import Button from '../../components/UI/Button';
 import Input from '../../components/UI/Input';
 import * as actions from './actions';
+import { toggleError } from '../../actions';
 
 // 3rd party imports
 import styled from 'styled-components';
@@ -101,14 +102,14 @@ class Auth extends Component {
 const mapStateToProps = state => {
   return {
     authToken: state.auth.token,
-    error: state.auth.error
+    error: state.global.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     login: (username, password) => dispatch(actions.login(username, password)),
-    toggleError: (error) => dispatch(actions.toggleError(error))
+    toggleError: (error) => dispatch(toggleError(error))
   };
 };
 
