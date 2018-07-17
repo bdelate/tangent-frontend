@@ -44,7 +44,7 @@ export const loadEmployees = () => {
         dispatch(saveEmployees(res.data));
       })
       .catch(error => {
-        // error not applicable since the user is simply not permitted to list
+        // error not applicable since the user is simply not permitted to list  
       });
   };
 };
