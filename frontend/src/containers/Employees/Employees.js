@@ -42,9 +42,17 @@ class Employees extends Component {
     }
   }
 
+  handleSelectEmployee = (index) => {
+    const id = this.props.employees[index]['id'];
+    this.props.selectEmployee(id);
+  };
+
   renderItem = ({ style, index }) => {
     return (
-      <Row style={style} key={index}>
+      <Row
+        style={style}
+        key={index}
+        onClick={() => this.handleSelectEmployee(index)}>
         {this.props.employees[index]['username']}
       </Row>
     );
@@ -53,7 +61,6 @@ class Employees extends Component {
   render() {
     return (
       <ListContainer
-        className="VirtualList"
         width={300}
         height={300}
         itemCount={this.props.employees.length}
@@ -74,7 +81,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     loadCurrentUserDetails: () => dispatch(actions.loadCurrentUserDetails()),
-    loadEmployees: () => dispatch(actions.loadEmployees())
+    loadEmployees: () => dispatch(actions.loadEmployees()),
+    selectEmployee: (id) => dispatch(actions.selectEmployee(id))
   };
 };
 

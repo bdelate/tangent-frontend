@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 // project imports
 import Controls from '../../components/Controls/Controls';
 import Employees from '../Employees/Employees';
+import EmployeeDetail from '../EmployeeDetail/EmployeeDetail';
 
 // 3rd party imports
 import { connect } from 'react-redux';
@@ -40,6 +41,7 @@ class Home extends Component {
       <div>
         <Controls />
         <Employees />
+        <EmployeeDetail />
         test
       </div>
     )

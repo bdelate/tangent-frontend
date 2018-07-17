@@ -7,6 +7,7 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import authReducer from './containers/Auth/reducers';
+import employeeDetailReducer from './containers/EmployeeDetail/reducers';
 import employeesReducer from './containers/Employees/reducers';
 import homeReducer from './containers/Home/reducers';
 import globalReducer from './reducers';
@@ -19,6 +20,7 @@ import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  employeeDetail: employeeDetailReducer,
   employees: employeesReducer,
   home: homeReducer,
   global: globalReducer

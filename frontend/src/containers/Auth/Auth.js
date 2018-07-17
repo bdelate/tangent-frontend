@@ -113,9 +113,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-// component only export used for testing
-export const AuthComponentOnly = Auth;
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps

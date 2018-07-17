@@ -18,6 +18,13 @@ function saveCurrentUserDetails(data) {
   };
 }
 
+export const selectEmployee = (id) => {
+  return {
+    type: 'EMPLOYEE_SELECTED',
+    id: id
+  }
+}
+
 // retrieve details of the currently logged in user
 export const loadCurrentUserDetails = () => {
   return dispatch => {
