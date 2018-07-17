@@ -7,6 +7,7 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import authReducer from './containers/Auth/reducers';
+import employeesReducer from './containers/Employees/reducers';
 import homeReducer from './containers/Home/reducers';
 
 // 3rd party imports
@@ -17,6 +18,7 @@ import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  employees: employeesReducer,
   home: homeReducer
 });
 

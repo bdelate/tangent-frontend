@@ -2,29 +2,27 @@
 import React, { Component } from 'react'
 
 // project imports
-import Employees from '../Employees/Employees';
+import * as actions from './actions';
 
 // 3rd party imports
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-class Home extends Component {
+class Employees extends Component {
 
   componentDidMount() {
     if (this.props.authToken) {
       axios.defaults.headers.common['Authorization'] = `JWT ${
         this.props.authToken
         }`;
-    } else {
-      this.props.history.push('/auth');
+      this.props.loadEmployees();  // retrieve employees from the server
     }
   }
 
   render() {
     return (
       <div>
-        <Employees />
-        test
+        employees placeholder
       </div>
     )
   }
@@ -32,11 +30,18 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
-    authToken: state.auth.token
+    authToken: state.auth.token,
+    employees: state.employees.employees
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadEmployees: () => dispatch(actions.loadEmployees())
   };
 };
 
 export default connect(
   mapStateToProps,
-  null
-)(Home);
+  mapDispatchToProps
+)(Employees);

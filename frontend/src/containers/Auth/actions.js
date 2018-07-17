@@ -30,7 +30,6 @@ export const login = (username, password) => {
         dispatch(saveToken(res.data.token));
       })
       .catch(error => {
-        console.log(error)
         const message = 'Unaible to login in. Check your credentials.';
         dispatch(toggleError(message));
       });
