@@ -11,8 +11,31 @@ function saveEmployees(employees) {
   };
 }
 
-// retrieve list of all employees from the server. If the user is not permitted
-// to do this, then just retrieve the details for the current user.
+function saveCurrentUserDetails(data) {
+  return {
+    type: 'SAVE_CURRENT_USER_DETAILS',
+    data: data
+  };
+}
+
+// retrieve details of the currently logged in user
+export const loadCurrentUserDetails = () => {
+  return dispatch => {
+    axios
+      .get('/api/employees/me/')
+      .then(res => {
+        dispatch(saveCurrentUserDetails(res.data));
+        dispatch(saveEmployees([res.data]));
+      })
+      .catch(error => {
+        const message = 'Error: Unable to load employee data';
+        dispatch(toggleError(message));
+      });
+  };
+};
+
+// retrieve list of all employees from the server if the user is permitted to
+// do so
 export const loadEmployees = () => {
   return dispatch => {
     axios
@@ -21,15 +44,7 @@ export const loadEmployees = () => {
         dispatch(saveEmployees(res.data));
       })
       .catch(error => {
-        axios
-          .get('/api/employees/me/')
-          .then(res => {
-            dispatch(saveEmployees([res.data]));
-          })
-          .catch(error => {
-            const message = 'Error: Unable to load employee data';
-            dispatch(toggleError(message));
-          });
+        // error not applicable since the user is simply not permitted to list
       });
   };
 };

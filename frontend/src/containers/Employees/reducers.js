@@ -1,6 +1,14 @@
 const initialState = {
-  employees: []
+  employees: [],
+  user: null
 };
+
+function saveCurrentUserDetails(state, data) {
+  return {
+    ...state,
+    user: data
+  };
+}
 
 function saveEmployees(state, employees) {
   return {
@@ -11,6 +19,8 @@ function saveEmployees(state, employees) {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'SAVE_CURRENT_USER_DETAILS':
+      return saveCurrentUserDetails(state, action.data);
     case 'SAVE_EMPLOYEES':
       return saveEmployees(state, action.employees);
     default:

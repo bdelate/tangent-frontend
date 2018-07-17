@@ -15,7 +15,10 @@ class Employees extends Component {
       axios.defaults.headers.common['Authorization'] = `JWT ${
         this.props.authToken
         }`;
-      this.props.loadEmployees();  // retrieve employees from the server
+      // retrieve user details to determine permissions (ie: rank)
+      this.props.loadCurrentUserDetails();
+      // retrieve employees from the server
+      this.props.loadEmployees();
     }
   }
 
@@ -37,6 +40,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    loadCurrentUserDetails: () => dispatch(actions.loadCurrentUserDetails()),
     loadEmployees: () => dispatch(actions.loadEmployees())
   };
 };

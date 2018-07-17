@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 // project imports
 import Button from '../../components/UI/Button';
 import * as actions from './actions';
+import { toggleError } from '../../actions';
 
 
 // 3rd party imports
@@ -13,6 +14,7 @@ import { connect } from 'react-redux';
 class LogoutButton extends Component {
 
   handleLogout = () => {
+    this.props.toggleError(null);
     localStorage.removeItem('authToken');
     this.props.logout();
   };
@@ -26,7 +28,8 @@ class LogoutButton extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout: () => dispatch(actions.logout())
+    logout: () => dispatch(actions.logout()),
+    toggleError: (error) => dispatch(toggleError(error))
   };
 };
 
