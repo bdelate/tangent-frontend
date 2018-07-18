@@ -41,6 +41,13 @@ export const loadCurrentUserDetails = () => {
   };
 };
 
+export const removeEmployeeFromList = (id) => {
+  return {
+    type: 'REMOVE_EMPLOYEE_FROM_LIST',
+    id: id
+  }
+};
+
 // retrieve list of all employees from the server if the user is permitted to
 // do so
 export const loadEmployees = () => {

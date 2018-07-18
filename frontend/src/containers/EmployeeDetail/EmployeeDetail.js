@@ -6,7 +6,7 @@ import Button from '../../components/UI/Button';
 import Input from '../../components/UI/Input';
 import Select from '../../components/UI/Select';
 import { toggleError } from '../../actions';
-import { selectEmployee } from '../Employees/actions';
+import { selectEmployee, removeEmployeeFromList } from '../Employees/actions';
 import * as actions from './actions';
 
 // 3rd party imports
@@ -115,9 +115,22 @@ class EmployeeDetail extends Component {
     }
   };
 
+  handleDelete = () => {
+    axios
+      .delete(`/api/employees/${this.props.selectedEmployeeId}/`)
+      .then(res => {
+        this.props.removeEmployeeFromList(this.props.selectedEmployeeId);
+        this.props.selectEmployee(null);
+      })
+      .catch(error => {
+        this.props.toggleError('Error: Unable to delete employee');
+      });
+  };
+
   render() {
     const error = this.props.error ? <div>{this.props.error}</div> : null;
     let form = null;
+    let deleteButton = null;
 
     if (this.state.employeeDetail.id && this.props.selectedEmployeeId) {
       const isManager = this.props.user.rank === 'Management' ? true : false;
@@ -130,6 +143,7 @@ class EmployeeDetail extends Component {
       }
 
       let passwordField = null;
+
       // password must be set when creating a new employee
       if (this.props.selectedEmployeeId === 'new'
         && this.state.employeeDetail.password !== undefined) {
@@ -145,6 +159,12 @@ class EmployeeDetail extends Component {
             }}
           />
         );
+      }
+
+      if (this.props.selectedEmployeeId !== 'new' && isManager) {
+        deleteButton = (
+          <Button domProps={{ onClick: this.handleDelete }}>Delete</Button>
+        )
       }
 
       form = (
@@ -230,6 +250,7 @@ class EmployeeDetail extends Component {
       <div>
         {error}
         {form}
+        {deleteButton}
       </div >
     )
   }
@@ -247,6 +268,7 @@ const mapDispatchToProps = dispatch => {
   return {
     selectEmployee: (id) => dispatch(selectEmployee(id)),
     appendNewEmployee: (employee) => dispatch(actions.appendNewEmployee(employee)),
+    removeEmployeeFromList: (id) => dispatch(removeEmployeeFromList(id)),
     toggleError: (error) => dispatch(toggleError(error))
   };
 };

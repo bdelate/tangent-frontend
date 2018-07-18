@@ -34,6 +34,16 @@ function appendNewEmployee(state, employee) {
   }
 }
 
+function removeEmployeeFromList(state, id) {
+  const employees = state.employees.filter(
+    employee => employee.id !== id
+  )
+  return {
+    ...state,
+    employees: employees
+  }
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SAVE_CURRENT_USER_DETAILS':
@@ -44,6 +54,8 @@ const reducer = (state = initialState, action) => {
       return employeeSelected(state, action.id)
     case 'APPEND_NEW_EMPLOYEE':
       return appendNewEmployee(state, action.employee)
+    case 'REMOVE_EMPLOYEE_FROM_LIST':
+      return removeEmployeeFromList(state, action.id)
     default:
       return state;
   }
