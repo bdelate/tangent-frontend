@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import Controls from '../../components/Controls/Controls';
 import Employees from '../Employees/Employees';
 import EmployeeDetail from '../EmployeeDetail/EmployeeDetail';
+import { selectEmployee } from '../Employees/actions';
 
 // 3rd party imports
 import { connect } from 'react-redux';
@@ -39,7 +40,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Controls />
+        <Controls user={this.props.user} displayCreateEmployeeForm={this.props.selectEmployee} />
         <Employees />
         <EmployeeDetail />
       </div>
@@ -49,11 +50,18 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.employees.user,
     authToken: state.auth.token
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    selectEmployee: (id) => dispatch(selectEmployee(id))
   };
 };
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Home);

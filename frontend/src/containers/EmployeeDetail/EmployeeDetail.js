@@ -30,12 +30,26 @@ class EmployeeDetail extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.selectedEmployeeId !== this.props.selectedEmployeeId) {
       if (this.props.selectedEmployeeId === 'new') {
-        // TODO - display blank form for employee creation
+        this.createEmptyEmployee();
       } else if (this.props.selectedEmployeeId) {
         this.handleLoadEmployeeDetail(this.props.selectedEmployeeId);
       }
     }
   }
+
+  createEmptyEmployee = () => {
+    const employeeDetail = {
+      id: 'new',
+      username: '',
+      cell_phone: '',
+      first_name: '',
+      last_name: '',
+      email: '',
+      salary: '',
+      rank: 'Junior'
+    };
+    this.setState({ employeeDetail: employeeDetail });
+  };
 
   // retrieve employee data from the server for the specified employee id
   handleLoadEmployeeDetail = (id) => {
