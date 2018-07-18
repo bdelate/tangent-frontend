@@ -1,5 +1,6 @@
 // project imports
 import { toggleError } from '../../actions';
+import { selectEmployee } from '../Employees/actions';
 
 // 3rd party imports
 import axios from 'axios';
@@ -26,6 +27,7 @@ export const login = (username, password) => {
   };
 
   return dispatch => {
+    dispatch(selectEmployee(null));
     axios
       .post('/obtain-auth-token/', authData)
       .then(res => {
