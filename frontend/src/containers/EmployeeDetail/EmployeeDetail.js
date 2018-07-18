@@ -2,13 +2,15 @@
 import React, { Component } from 'react'
 
 // project imports
+import Button from '../../components/UI/Button';
 import Input from '../../components/UI/Input';
 import Select from '../../components/UI/Select';
-import axios from 'axios';
 import { toggleError } from '../../actions';
+import { selectEmployee } from '../Employees/actions';
 
 // 3rd party imports
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 
 class EmployeeDetail extends Component {
@@ -26,11 +28,10 @@ class EmployeeDetail extends Component {
 
   // Determine if a different employee id was selected or 'new'. Else do nothing.
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.selectedEmployeeId !== this.props.selectedEmployeeId
-      && this.props.selectedEmployeeId !== null) {
+    if (prevState.selectedEmployeeId !== this.props.selectedEmployeeId) {
       if (this.props.selectedEmployeeId === 'new') {
         // TODO - display blank form for employee creation
-      } else {
+      } else if (this.props.selectedEmployeeId) {
         this.handleLoadEmployeeDetail(this.props.selectedEmployeeId);
       }
     }
@@ -60,15 +61,39 @@ class EmployeeDetail extends Component {
     })
   };
 
+  // submit the form using either post or patch depending on new vs existing
+  // employee
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.toggleError(null);
+    const data = {
+      username: event.target.username.value,
+      cell_phone: event.target.cell_phone.value,
+      first_name: event.target.first_name.value,
+      last_name: event.target.last_name.value,
+      email: event.target.email.value,
+      salary: event.target.salary.value,
+      rank: event.target.rank.value
+    };
+    if (this.props.selectedEmployeeId !== 'new') {
+      data['id'] = this.props.selectedEmployeeId;
+      axios
+        .patch(`/api/employees/${data.id}/`, data)
+        .then(res => {
+          this.props.selectEmployee(null);
+        })
+        .catch(error => {
+          this.props.toggleError('Error: Unable to update employee details');
+        });
+    }
+  };
+
   render() {
     const error = this.props.error ? <div>{this.props.error}</div> : null;
     let form = null;
 
-    if (this.state.employeeDetail.id) {
-      const isManagerOrSuperuser =
-        this.props.user.rank === 'Management' || this.props.user.is_superuser
-          ? true
-          : false;
+    if (this.state.employeeDetail.id && this.props.selectedEmployeeId) {
+      const isManager = this.props.user.rank === 'Management' ? true : false;
 
       const rankOptions = {
         'Management': 'Management',
@@ -78,7 +103,7 @@ class EmployeeDetail extends Component {
       }
 
       form = (
-        <form>
+        <form onSubmit={(e) => this.handleSubmit(e)}>
           <Input
             domProps={{
               type: 'text',
@@ -135,7 +160,7 @@ class EmployeeDetail extends Component {
               name: 'salary',
               required: 'required',
               placeholder: 'Salary',
-              disabled: !isManagerOrSuperuser,
+              disabled: !isManager,
               value: this.state.employeeDetail.salary,
               onChange: (e) => this.handleFormChange(e)
             }}
@@ -146,10 +171,11 @@ class EmployeeDetail extends Component {
               name: 'rank',
               required: 'required',
               value: this.state.employeeDetail.rank,
-              disabled: !isManagerOrSuperuser,
+              disabled: !isManager,
             }}
             options={rankOptions}
           />
+          <Button domProps={{ type: 'submit' }}>Save</Button>
         </form>
       )
     }
@@ -173,6 +199,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    selectEmployee: (id) => dispatch(selectEmployee(id)),
     toggleError: (error) => dispatch(toggleError(error))
   };
 };
