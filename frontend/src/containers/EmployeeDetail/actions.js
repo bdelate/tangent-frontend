@@ -12,6 +12,14 @@ function employeeDetailReceived(data) {
   };
 }
 
+// when a new employee is created, add their username to the employee list
+export const appendNewEmployee = (employee) => {
+  return {
+    type: 'APPEND_NEW_EMPLOYEE',
+    employee: employee
+  }
+};
+
 // retrieve details for the specified employee id
 export const loadEmployeeDetail = (id) => {
   return dispatch => {

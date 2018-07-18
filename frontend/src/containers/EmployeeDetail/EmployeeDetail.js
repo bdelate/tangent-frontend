@@ -7,6 +7,7 @@ import Input from '../../components/UI/Input';
 import Select from '../../components/UI/Select';
 import { toggleError } from '../../actions';
 import { selectEmployee } from '../Employees/actions';
+import * as actions from './actions';
 
 // 3rd party imports
 import { connect } from 'react-redux';
@@ -46,7 +47,8 @@ class EmployeeDetail extends Component {
       last_name: '',
       email: '',
       salary: '',
-      rank: 'Junior'
+      rank: 'Junior',
+      password: ''
     };
     this.setState({ employeeDetail: employeeDetail });
   };
@@ -99,6 +101,17 @@ class EmployeeDetail extends Component {
         .catch(error => {
           this.props.toggleError('Error: Unable to update employee details');
         });
+    } else {
+      data['password'] = event.target.password.value;
+      axios
+        .post(`/api/employees/`, data)
+        .then(res => {
+          this.props.selectEmployee(null);
+          this.props.appendNewEmployee(res.data);
+        })
+        .catch(error => {
+          this.props.toggleError('Error: Unable to create new employee');
+        });
     }
   };
 
@@ -114,6 +127,24 @@ class EmployeeDetail extends Component {
         'Senior': 'Senior',
         'Intermediate': 'Intermediate',
         'Junior': 'Junior'
+      }
+
+      let passwordField = null;
+      // password must be set when creating a new employee
+      if (this.props.selectedEmployeeId === 'new'
+        && this.state.employeeDetail.password !== undefined) {
+        passwordField = (
+          <Input
+            domProps={{
+              type: 'password',
+              name: 'password',
+              required: 'required',
+              placeholder: 'Password',
+              value: this.state.employeeDetail.password,
+              onChange: (e) => this.handleFormChange(e)
+            }}
+          />
+        );
       }
 
       form = (
@@ -179,6 +210,7 @@ class EmployeeDetail extends Component {
               onChange: (e) => this.handleFormChange(e)
             }}
           />
+          {passwordField}
           <Select
             domProps={{
               onChange: (e) => this.handleFormChange(e),
@@ -214,6 +246,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     selectEmployee: (id) => dispatch(selectEmployee(id)),
+    appendNewEmployee: (employee) => dispatch(actions.appendNewEmployee(employee)),
     toggleError: (error) => dispatch(toggleError(error))
   };
 };

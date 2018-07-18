@@ -25,6 +25,15 @@ function employeeSelected(state, id) {
   }
 }
 
+function appendNewEmployee(state, employee) {
+  const employees = [...state.employees];
+  employees.unshift(employee);
+  return {
+    ...state,
+    employees: employees
+  }
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SAVE_CURRENT_USER_DETAILS':
@@ -33,6 +42,8 @@ const reducer = (state = initialState, action) => {
       return saveEmployees(state, action.employees);
     case 'EMPLOYEE_SELECTED':
       return employeeSelected(state, action.id)
+    case 'APPEND_NEW_EMPLOYEE':
+      return appendNewEmployee(state, action.employee)
     default:
       return state;
   }
