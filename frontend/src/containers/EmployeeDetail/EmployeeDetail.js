@@ -197,6 +197,7 @@ class EmployeeDetail extends Component {
       form = (
         <div>
           <Header>Employee Details</Header>
+          {error}
           <form onSubmit={(e) => this.handleSubmit(e)}>
             <FormElementsContainer>
               <Label htmlFor="username">Username</Label>
@@ -288,7 +289,6 @@ class EmployeeDetail extends Component {
 
     return (
       <EmployeeDetailContainer>
-        {error}
         {form}
       </EmployeeDetailContainer >
     )
