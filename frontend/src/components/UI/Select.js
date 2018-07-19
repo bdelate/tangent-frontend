@@ -8,6 +8,7 @@ const Select = styled.select`
   border-radius: 2px;
   padding: 8px;
   margin: 5px;
+  background-color: #fff;
 `;
 
 const select = props => {

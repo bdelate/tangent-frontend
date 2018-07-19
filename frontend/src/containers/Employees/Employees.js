@@ -22,9 +22,16 @@ const ListContainer = styled(VirtualList)`
 `;
 
 const Row = styled.div`
+  padding: 0 15px;
+  border-bottom: 1px solid #bbaeaf;
+  box-sizing: border-box;
+  line-height: 50px;
+  font-weight: 500;
+  color: #434348;
   :hover {
     cursor: pointer;
     background-color: #9a2b37;
+    color: #fff;
   }
 `;
 
@@ -53,7 +60,7 @@ class Employees extends Component {
         style={style}
         key={index}
         onClick={() => this.handleSelectEmployee(index)}>
-        {this.props.employees[index]['username']}
+        {this.props.employees[index]['first_name']} {this.props.employees[index]['last_name']}
       </Row>
     );
   };
@@ -62,9 +69,9 @@ class Employees extends Component {
     return (
       <ListContainer
         width={300}
-        height={300}
+        height={600}
         itemCount={this.props.employees.length}
-        itemSize={30}
+        itemSize={50}
         renderItem={this.renderItem}
       />
     )

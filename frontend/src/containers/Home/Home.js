@@ -8,8 +8,18 @@ import EmployeeDetail from '../EmployeeDetail/EmployeeDetail';
 import { selectEmployee } from '../Employees/actions';
 
 // 3rd party imports
-import { connect } from 'react-redux';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const FormSectionContainer = styled.div`
+  width: 100%
+`;
 
 class Home extends Component {
 
@@ -39,11 +49,15 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
-        <Controls user={this.props.user} displayCreateEmployeeForm={this.props.selectEmployee} />
-        <Employees />
-        <EmployeeDetail />
-      </div>
+      <Container>
+        <div>
+          <Controls user={this.props.user} displayCreateEmployeeForm={this.props.selectEmployee} />
+          <Employees />
+        </div>
+        <FormSectionContainer>
+          <EmployeeDetail />
+        </FormSectionContainer>
+      </Container>
     )
   }
 }

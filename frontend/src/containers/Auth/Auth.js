@@ -14,12 +14,19 @@ import axios from 'axios';
 
 const Container = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: column
   justify-content: center;
+`;
+
+const Header = styled.h1`
+  text-align: center;
+  color: #434348;
 `;
 
 const Card = styled.div`
   display: flex;
+  align-self: center;
   flex-direction: column;
   min-width: 200px;
   max-width: 30vw;
@@ -72,6 +79,7 @@ class Auth extends Component {
 
     return (
       <Container>
+        <Header>Employee Management System</Header>
         <Card>
           {error}
           <Form id="idAuthForm" onSubmit={(e) => this.handleLogin(e)}>

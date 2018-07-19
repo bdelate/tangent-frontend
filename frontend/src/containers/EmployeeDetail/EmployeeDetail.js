@@ -1,5 +1,5 @@
 // react imports
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 // project imports
 import Button from '../../components/UI/Button';
@@ -10,9 +10,31 @@ import { selectEmployee, removeEmployeeFromList } from '../Employees/actions';
 import * as actions from './actions';
 
 // 3rd party imports
-import { connect } from 'react-redux';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 
+
+const EmployeeDetailContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const FormElementsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Header = styled.h1`
+  text-align: center;
+  color: #434348;
+`;
+
+const Label = styled.label`
+  padding: 8px 0 0 8px;
+  color: #434348;
+  font-size: small;
+`;
 
 class EmployeeDetail extends Component {
 
@@ -115,7 +137,8 @@ class EmployeeDetail extends Component {
     }
   };
 
-  handleDelete = () => {
+  handleDelete = (event) => {
+    event.preventDefault();
     axios
       .delete(`/api/employees/${this.props.selectedEmployeeId}/`)
       .then(res => {
@@ -148,110 +171,125 @@ class EmployeeDetail extends Component {
       if (this.props.selectedEmployeeId === 'new'
         && this.state.employeeDetail.password !== undefined) {
         passwordField = (
-          <Input
-            domProps={{
-              type: 'password',
-              name: 'password',
-              required: 'required',
-              placeholder: 'Password',
-              value: this.state.employeeDetail.password,
-              onChange: (e) => this.handleFormChange(e)
-            }}
-          />
+          <Fragment>
+            <Label htmlFor="password">Password</Label>
+            <Input
+              domProps={{
+                type: 'password',
+                name: 'password',
+                required: 'required',
+                placeholder: 'Password',
+                value: this.state.employeeDetail.password,
+                onChange: (e) => this.handleFormChange(e)
+              }}
+            />
+          </Fragment>
         );
       }
 
       if (this.props.selectedEmployeeId !== 'new' && isManager) {
         deleteButton = (
-          <Button domProps={{ onClick: this.handleDelete }}>Delete</Button>
+          <Button domProps={{ onClick: (e) => this.handleDelete(e) }}>Delete</Button>
         )
       }
 
       form = (
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          <Input
-            domProps={{
-              type: 'text',
-              name: 'username',
-              required: 'required',
-              placeholder: 'Username',
-              value: this.state.employeeDetail.username,
-              onChange: (e) => this.handleFormChange(e)
-            }}
-          />
-          <Input
-            domProps={{
-              type: 'text',
-              name: 'cell_phone',
-              required: 'required',
-              placeholder: 'Cell Phone',
-              value: this.state.employeeDetail.cell_phone,
-              onChange: (e) => this.handleFormChange(e)
-            }}
-          />
-          <Input
-            domProps={{
-              type: 'text',
-              name: 'first_name',
-              required: 'required',
-              placeholder: 'First name',
-              value: this.state.employeeDetail.first_name,
-              onChange: (e) => this.handleFormChange(e)
-            }}
-          />
-          <Input
-            domProps={{
-              type: 'text',
-              name: 'last_name',
-              required: 'required',
-              placeholder: 'Last name',
-              value: this.state.employeeDetail.last_name,
-              onChange: (e) => this.handleFormChange(e)
-            }}
-          />
-          <Input
-            domProps={{
-              type: 'email',
-              name: 'email',
-              required: 'required',
-              placeholder: 'Email',
-              value: this.state.employeeDetail.email,
-              onChange: (e) => this.handleFormChange(e)
-            }}
-          />
-          <Input
-            domProps={{
-              type: 'number',
-              name: 'salary',
-              required: 'required',
-              placeholder: 'Salary',
-              disabled: !isManager,
-              value: this.state.employeeDetail.salary,
-              onChange: (e) => this.handleFormChange(e)
-            }}
-          />
-          {passwordField}
-          <Select
-            domProps={{
-              onChange: (e) => this.handleFormChange(e),
-              name: 'rank',
-              required: 'required',
-              value: this.state.employeeDetail.rank,
-              disabled: !isManager,
-            }}
-            options={rankOptions}
-          />
-          <Button domProps={{ type: 'submit' }}>Save</Button>
-        </form>
+        <div>
+          <Header>Employee Details</Header>
+          <form onSubmit={(e) => this.handleSubmit(e)}>
+            <FormElementsContainer>
+              <Label htmlFor="username">Username</Label>
+              <Input
+                domProps={{
+                  type: 'text',
+                  name: 'username',
+                  required: 'required',
+                  placeholder: 'Username',
+                  value: this.state.employeeDetail.username,
+                  onChange: (e) => this.handleFormChange(e)
+                }}
+              />
+              <Label htmlFor="cell_phone">Cell Phone</Label>
+              <Input
+                domProps={{
+                  type: 'text',
+                  name: 'cell_phone',
+                  required: 'required',
+                  placeholder: 'Cell Phone',
+                  value: this.state.employeeDetail.cell_phone,
+                  onChange: (e) => this.handleFormChange(e)
+                }}
+              />
+              <Label htmlFor="first_name">First Name</Label>
+              <Input
+                domProps={{
+                  type: 'text',
+                  name: 'first_name',
+                  required: 'required',
+                  placeholder: 'First name',
+                  value: this.state.employeeDetail.first_name,
+                  onChange: (e) => this.handleFormChange(e)
+                }}
+              />
+              <Label htmlFor="last_name">Last Name</Label>
+              <Input
+                domProps={{
+                  type: 'text',
+                  name: 'last_name',
+                  required: 'required',
+                  placeholder: 'Last name',
+                  value: this.state.employeeDetail.last_name,
+                  onChange: (e) => this.handleFormChange(e)
+                }}
+              />
+              <Label htmlFor="email">Email</Label>
+              <Input
+                domProps={{
+                  type: 'email',
+                  name: 'email',
+                  required: 'required',
+                  placeholder: 'Email',
+                  value: this.state.employeeDetail.email,
+                  onChange: (e) => this.handleFormChange(e)
+                }}
+              />
+              <Label htmlFor="salary">Salary</Label>
+              <Input
+                domProps={{
+                  type: 'number',
+                  name: 'salary',
+                  required: 'required',
+                  placeholder: 'Salary',
+                  disabled: !isManager,
+                  value: this.state.employeeDetail.salary,
+                  onChange: (e) => this.handleFormChange(e)
+                }}
+              />
+              {passwordField}
+              <Label htmlFor="rank">Rank</Label>
+              <Select
+                domProps={{
+                  onChange: (e) => this.handleFormChange(e),
+                  name: 'rank',
+                  required: 'required',
+                  value: this.state.employeeDetail.rank,
+                  disabled: !isManager,
+                }}
+                options={rankOptions}
+              />
+              <Button domProps={{ type: 'submit' }}>Save</Button>
+              {deleteButton}
+            </FormElementsContainer>
+          </form>
+        </div>
       )
     }
 
     return (
-      <div>
+      <EmployeeDetailContainer>
         {error}
         {form}
-        {deleteButton}
-      </div >
+      </EmployeeDetailContainer >
     )
   }
 }
