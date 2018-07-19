@@ -68,6 +68,7 @@ class Employees extends Component {
   render() {
     return (
       <ListContainer
+        rendercount={this.props.renderCount}
         width={300}
         height={600}
         itemCount={this.props.employees.length}
@@ -81,7 +82,8 @@ class Employees extends Component {
 const mapStateToProps = state => {
   return {
     authToken: state.auth.token,
-    employees: state.employees.employees
+    employees: state.employees.employees,
+    renderCount: state.employees.renderCount
   };
 };
 

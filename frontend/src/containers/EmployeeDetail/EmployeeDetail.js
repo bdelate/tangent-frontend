@@ -119,6 +119,7 @@ class EmployeeDetail extends Component {
         .patch(`/api/employees/${data.id}/`, data)
         .then(res => {
           this.props.selectEmployee(null);
+          this.props.updateEmployee(data);
         })
         .catch(error => {
           this.props.toggleError('Error: Unable to update employee details');
@@ -307,6 +308,7 @@ const mapDispatchToProps = dispatch => {
     selectEmployee: (id) => dispatch(selectEmployee(id)),
     appendNewEmployee: (employee) => dispatch(actions.appendNewEmployee(employee)),
     removeEmployeeFromList: (id) => dispatch(removeEmployeeFromList(id)),
+    updateEmployee: (employee) => dispatch(actions.updateEmployee(employee)),
     toggleError: (error) => dispatch(toggleError(error))
   };
 };

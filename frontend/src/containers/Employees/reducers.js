@@ -1,7 +1,8 @@
 const initialState = {
   employees: [],
   selectedEmployeeId: null,
-  user: null
+  user: null,
+  renderCount: 0
 };
 
 function saveCurrentUserDetails(state, data) {
@@ -44,6 +45,23 @@ function removeEmployeeFromList(state, id) {
   }
 }
 
+function updateEmployee(state, updatedEmployee) {
+  const employees = state.employees.map(
+    employee => {
+      if (employee.id === updatedEmployee.id) {
+        return updatedEmployee
+      } else {
+        return employee
+      }
+    }
+  )
+  return {
+    ...state,
+    employees: employees,
+    renderCount: state.renderCount + 1
+  }
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SAVE_CURRENT_USER_DETAILS':
@@ -56,6 +74,8 @@ const reducer = (state = initialState, action) => {
       return appendNewEmployee(state, action.employee)
     case 'REMOVE_EMPLOYEE_FROM_LIST':
       return removeEmployeeFromList(state, action.id)
+    case 'UPDATE_EMPLOYEE':
+      return updateEmployee(state, action.employee)
     default:
       return state;
   }

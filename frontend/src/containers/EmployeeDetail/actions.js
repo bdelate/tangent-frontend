@@ -20,6 +20,13 @@ export const appendNewEmployee = (employee) => {
   }
 };
 
+export const updateEmployee = (employee) => {
+  return {
+    type: 'UPDATE_EMPLOYEE',
+    employee: employee
+  }
+}
+
 // retrieve details for the specified employee id
 export const loadEmployeeDetail = (id) => {
   return dispatch => {
